@@ -1,40 +1,42 @@
-<script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
+<script setup>
+import AuthenticatedLayout from '../layouts/AuthenticatedLayout.vue'
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-];
-
-defineProps<{
-    name?: string;
-}>();
+defineProps({
+    totalProducts:   Number,
+    totalCategories: Number,
+    totalSuppliers:  Number,
+    lowStockCount:   Number,
+    outOfStockCount: Number,
+})
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <AuthenticatedLayout>
+        <template #header>Dashboard</template>
 
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
-                </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
-                </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
-                </div>
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+            <div class="bg-white rounded-xl shadow p-5">
+                <p class="text-sm text-gray-500">Total Products</p>
+                <p class="text-3xl font-bold text-gray-800">{{ totalProducts }}</p>
             </div>
-            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <PlaceholderPattern />
+            <div class="bg-white rounded-xl shadow p-5">
+                <p class="text-sm text-gray-500">Categories</p>
+                <p class="text-3xl font-bold text-gray-800">{{ totalCategories }}</p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-5">
+                <p class="text-sm text-gray-500">Suppliers</p>
+                <p class="text-3xl font-bold text-gray-800">{{ totalSuppliers }}</p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-5 border-l-4 border-yellow-400">
+                <p class="text-sm text-gray-500">Low Stock</p>
+                <p class="text-3xl font-bold text-yellow-600">{{ lowStockCount }}</p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-5 border-l-4 border-red-400">
+                <p class="text-sm text-gray-500">Out of Stock</p>
+                <p class="text-3xl font-bold text-red-600">{{ outOfStockCount }}</p>
             </div>
         </div>
-    </AppLayout>
+
+    </AuthenticatedLayout>
 </template>
