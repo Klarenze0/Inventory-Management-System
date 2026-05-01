@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockMovementController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,6 +28,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //suppliers
     Route::resource('suppliers', SupplierController::class);
+
+    //stock movements
+    Route::resource('stock-movements', StockMovementController::class)
+        ->only(['index', 'create', 'store', 'show']);
 });
 
 require __DIR__ . '/settings.php';
