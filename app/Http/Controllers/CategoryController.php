@@ -20,7 +20,7 @@ class CategoryController extends Controller
             ->orderBy('name')
             ->paginate(10);
 
-        return Inertia::render('categories/Index', [
+        return Inertia::render('Categories/Index', [
             'categories' => $categories,
         ]);
     }
@@ -28,7 +28,7 @@ class CategoryController extends Controller
     // show create form
     public function create(): Response
     {
-        return Inertia::render('categories/Create');
+        return Inertia::render('Categories/Create');
     }
 
     // save new category
@@ -54,7 +54,7 @@ class CategoryController extends Controller
     {
         $category->load('products');
 
-        return Inertia::render('categories/Show', [
+        return Inertia::render('Categories/Show', [
             'category' => $category,
         ]);
     }
@@ -64,7 +64,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category): Response
     {
-        return Inertia::render('categories/Edit', [
+        return Inertia::render('Categories/Edit', [
             'category' => $category
         ]);
     }

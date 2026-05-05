@@ -33,7 +33,7 @@ class StockMovementController extends Controller
     //show form to record movement
     public function create(): Response
     {
-        $products = Product::oderBy('name')->get(['id', 'name', 'sku', 'stock_quantity']);
+        $products = Product::orderBy('name')->get(['id', 'name', 'sku', 'stock_quantity']);
 
         return Inertia::render('StockMovements/Create', [
             'products'  =>  $products,
