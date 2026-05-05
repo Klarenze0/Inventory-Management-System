@@ -59,7 +59,8 @@ class StockMovementController extends Controller
         } catch (Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', $e->getMessage());
+                ->withErrors(['error' => $e->getMessage()])
+                ->withInput();
         }
     }
 

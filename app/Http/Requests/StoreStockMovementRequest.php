@@ -23,10 +23,12 @@ class StoreStockMovementRequest extends FormRequest
      */
     public function rules(): array
     {
+        $type = $this->input('type');
+        
         return [
-            'product_id'    => ['required', 'exists:product_id'],
+            'product_id'    => ['required', 'exists:products,id'],
             'type'          => ['required', 'in:in,out,adjustment'],
-            'quantity'      => ['required', 'integer', 'not_in:0'],
+            'quantity'      => ['required', 'integer', 'not_in:0', $type === 'adjustment' ? 'min:-99999' : 'min:1'],
             'reason'        => ['nullable', 'string', 'max:500'],
         ];
     }

@@ -21,7 +21,7 @@ class SupplierController extends Controller
             ->paginate(10);
 
         return Inertia::render('Suppliers/Index', [
-            'supplier' => $suppliers, 
+            'suppliers' => $suppliers, 
         ]);
     }
 

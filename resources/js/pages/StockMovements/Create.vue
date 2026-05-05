@@ -46,7 +46,7 @@ const submit = () => {
                         <label class="block text-sm font-medium mb-1">Product *</label>
                         <select
                             v-model="form.product_id"
-                            class="w-full border border-sidebar-border/70 rounded-lg px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+                            class="w-full border border-sidebar-border/70 rounded-lg px-3 py-2 text-sm bg-transparent focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                         >
                             <option value="">-- Select Product --</option>
                             <option
@@ -120,6 +120,9 @@ const submit = () => {
                             class="w-full border border-sidebar-border/70 rounded-lg px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-primary"
                             placeholder="Delivery from supplier, sold to customer, etc."
                         />
+                    </div>
+                    <div v-if="(form.errors as any).error" class="bg-red-100 text-red-800 px-4 py-3 rounded-lg text-sm">
+                        ❌ {{ (form.errors as any).error }}
                     </div>
 
                     <!-- Buttons -->

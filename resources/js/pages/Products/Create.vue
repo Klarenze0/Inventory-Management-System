@@ -90,7 +90,7 @@ const submit = () => {
                         <label class="block text-sm font-medium mb-1">Category</label>
                         <select
                             v-model="form.category_id"
-                            class="w-full border border-sidebar-border/70 rounded-lg px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2 focus:ring-primary"
+                            class="w-full border border-sidebar-border/70 rounded-lg px-3 py-2 text-sm bg-transparent focus:bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                         >
                             <option value="">-- Select Category --</option>
                             <option

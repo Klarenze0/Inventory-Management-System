@@ -29,27 +29,27 @@ class StockService
         $product->update(['stock_quantity' => $stockAfter]);
 
         $movement = StockMovement::create([
-            'product_id'        => $product->id,
-            'user_id'           => auth()->id(),
-            'type'              => $type,
-            'quantity'          => $quantity,
-            'reason'            => $reason,
-            'stock_before'      => $stockBefore,
-            'stock_after'       => $stockAfter,
+            'product_id' => $product->id,
+            'user_id' => auth()->id(),
+            'type' => $type,
+            'quantity' => $quantity,
+            'reason' => $reason,
+            'stock_before' => $stockBefore,
+            'stock_after' => $stockAfter,
         ]);
 
         ActivityLog::create([
-            'user_id'       => auth()->id(),
-            'action'        => "stock_{$type}",
-            'description'   => $this->buildLogDescription(
-                                    $product,
-                                    $type,
-                                    $quantity,
-                                    $stockBefore,
-                                    $stockAfter,
-                                ),
-            'subject_type'  => 'Product',
-            'subject_id'    => $product->id,
+            'user_id' => auth()->id(),
+            'action' => "stock_{$type}",
+            'description' => $this->buildLogDescription(
+                $product,
+                $type,
+                $quantity,
+                $stockBefore,
+                $stockAfter,
+            ),
+            'subject_type' => 'Product',
+            'subject_id' => $product->id,
         ]);
 
         return $movement;
@@ -59,21 +59,30 @@ class StockService
         Product $product,
         string $type,
         int $quantity
-    ): void
-    {
-        if ($quantity <= 0) {
-            throw new Exception(
-                "Insufficient stock. Current stock: {$product->stock_quantity}" .
-                "Requested: {$quantity}"
-            );
+    ): void {
+        if ($type !== 'adjustment' && $quantity <= 0) {
+            throw new Exception("Quantity must be greater than zero.");
+        }
+
+        if ($type === 'out') {
+            if ($product->stock_quantity < $quantity) {
+                throw new Exception(
+                    "Insufficient stock. Current stock: {$product->stock_quantity}. " .
+                    "Requested: {$quantity}"
+                );
+            }
         }
 
         if ($type === 'adjustment') {
-            $newstock = $product->stock_quantity + $quantity;
+            if ($quantity === 0) {
+                throw new Exception("Adjustment quantity cannot be zero.");
+            }
 
-            if ($newstock < 0) {
+            $newStock = $product->stock_quantity + $quantity;
+            if ($newStock < 0) {
                 throw new Exception(
-                    "Adjustment would result in negative stock."
+                    "Adjustment would result in negative stock. " .
+                    "Current stock: {$product->stock_quantity}."
                 );
             }
         }
@@ -83,33 +92,31 @@ class StockService
         int $currentStock,
         string $type,
         int $quantity
-    ): int
-    {
-        return match($type) {
-            'in'            => $currentStock + $quantity,
-            'out'           => $currentStock - $quantity,
-            'adjustment'    => $currentStock + $quantity,
-            default         => throw new Exception("Invalid movement type: {$type}")
+    ): int {
+        return match ($type) {
+            'in' => $currentStock + $quantity,
+            'out' => $currentStock - $quantity,
+            'adjustment' => $currentStock + $quantity,
+            default => throw new Exception("Invalid movement type: {$type}")
         };
     }
 
     private function buildLogDescription(
         Product $product,
-        string  $type,
-        int     $quantity,
-        int     $stockBefore,
-        int     $stockAfter
-    ): string
-    {
-        $typeLabel = match($type) {
-            'in'            => 'Stock in',
-            'out'           => 'Stock out',
-            'adjustment'    => 'Adjustment',
-            default         => ucfirst($type) 
+        string $type,
+        int $quantity,
+        int $stockBefore,
+        int $stockAfter
+    ): string {
+        $typeLabel = match ($type) {
+            'in' => 'Stock in',
+            'out' => 'Stock out',
+            'adjustment' => 'Adjustment',
+            default => ucfirst($type)
         };
 
         return "{$typeLabel} of {$quantity} units for product " .
-               "\"{$product->name}\" (SKU: {$product->sku}). " .
-               "Stock changed from {$stockBefore} to {$stockAfter}.";
+            "\"{$product->name}\" (SKU: {$product->sku}). " .
+            "Stock changed from {$stockBefore} to {$stockAfter}.";
     }
 }

@@ -2,13 +2,13 @@ import type { LucideIcon } from 'lucide-vue-next';
 
 export interface Auth {
     user: {
-        id: number
-        name:   string
-        email:  string
+        id: number;
+        name: string;
+        email: string;
         role?: {
-            name:   string
-        } | null
-    }
+            name: string;
+        } | null;
+    };
 }
 
 export interface BreadcrumbItem {
@@ -18,7 +18,7 @@ export interface BreadcrumbItem {
 
 export interface NavItem {
     title: string;
-    href: string;
+    url: string;
     icon?: LucideIcon;
     isActive?: boolean;
 }
@@ -47,15 +47,15 @@ export interface User {
 }
 
 export interface FlashMessages {
-    success?: string | null
-    error?: string | null
+    success?: string | null;
+    error?: string | null;
 }
 
 declare module '@inertiajs/vue3' {
     interface PageProps {
-        flash: FlashMessages
-        auth:  Auth
+        flash: FlashMessages;
+        auth: Auth;
     }
 }
- 
+
 export type BreadcrumbItemType = BreadcrumbItem;

@@ -29,8 +29,8 @@ class UpdateProductRequest extends FormRequest
         return [
             'category_id'           => ['nullable', 'exists:categories,id'],
             'name'                  => ['required', 'string', 'max:255'],
-            'sku'                   => ['required', 'string', 'unique:products,sku,{$productId}'],
-            'barcode'               => ['nullable', 'string', 'unique:products,barcode,{$productId}'],
+            'sku'                   => ['required', 'string', "unique:products,sku,{$productId}"],
+            'barcode'               => ['nullable', 'string', "unique:products,barcode,{$productId}"],        
             'description'           => ['nullable', 'string'],
             'unit_price'            => ['required', 'numeric', 'min:0'],
             'stock_quantity'        => ['required', 'integer', 'min:0'],

@@ -5,33 +5,33 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Package, Tag, Truck, ArrowLeftRight } from 'lucide-vue-next';
+import { ArrowLeftRight, LayoutGrid, Package, Tag, Truck } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        url: '/dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Products',
-        href: '/products',
+        url: '/products',
         icon: Package,
     },
     {
         title: 'Categories',
-        href: '/categories',
+        url: '/categories',
         icon: Tag,
     },
     {
         title: 'Suppliers',
-        href: '/suppliers',
+        url: '/suppliers',
         icon: Truck,
     },
     {
         title: 'Stock Movements',
-        href: '/stock-movements',
+        url: '/stock-movements',
         icon: ArrowLeftRight,
     },
 ];
@@ -54,7 +54,7 @@ const footerNavItems: NavItem[] = [];
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="mainNavItems as any" />
         </SidebarContent>
 
         <SidebarFooter>
