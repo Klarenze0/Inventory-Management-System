@@ -23,7 +23,7 @@ class ProductController extends Controller
             ->paginate(10);
 
         return Inertia::render('Products/Index', [
-            'Products' => $products,    
+            'products' => $products,    
         ]);
     }
 
@@ -58,7 +58,7 @@ class ProductController extends Controller
         ActivityLog::create([
             'user_id'       => auth()->id(),
             'action'        => 'created_product',
-            'description'   => 'Created product: {$product_name} (SKU: {$product->sku}',
+            'description'   => "Created product: {$product->name} (SKU: {$product->sku})",
             'subject_type'  => 'Product',
             'subject_id'    =>  $product->id,
         ]);
@@ -113,7 +113,7 @@ class ProductController extends Controller
         ActivityLog::create([
             'user_id'           => auth()->id(),
             'action'            => 'updated_product',
-            'description'       => 'Updated product: {$product_name} (SKU: {$product_name->sku})',
+            'description'       => "Updated product: {$product->name} (SKU: {$product->sku})",
             'subject_type'      => 'Product',
             'subject_id'        => $product->id,
         ]);
@@ -139,7 +139,7 @@ class ProductController extends Controller
         ActivityLog::create([
             'user_id'           => auth()->id(),
             'action'            => 'deleted_product',
-            'description'       => 'Deleted product: {$productName} (SKU: {$productSku})',
+            'description'       => "Deleted product: {$productName} (SKU: {$productSku})",
         ]);
 
         return redirect()

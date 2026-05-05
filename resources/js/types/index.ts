@@ -1,7 +1,14 @@
 import type { LucideIcon } from 'lucide-vue-next';
 
 export interface Auth {
-    user: User;
+    user: {
+        id: number
+        name:   string
+        email:  string
+        role?: {
+            name:   string
+        } | null
+    }
 }
 
 export interface BreadcrumbItem {
@@ -39,4 +46,16 @@ export interface User {
     updated_at: string;
 }
 
+export interface FlashMessages {
+    success?: string | null
+    error?: string | null
+}
+
+declare module '@inertiajs/vue3' {
+    interface PageProps {
+        flash: FlashMessages
+        auth:  Auth
+    }
+}
+ 
 export type BreadcrumbItemType = BreadcrumbItem;
